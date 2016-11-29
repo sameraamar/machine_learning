@@ -3,7 +3,7 @@ practicing some machine learning algorithms
 The exercise are done part of Machine Learning Course at the Haifa University (2016/2017)
 
 1. <b><u>ex1.py</u></b> : 
-    <br><iframe width="560" height="315" src="https://www.youtube.com/embed/BcnmQQMt6bs" frameborder="0" allowfullscreen></iframe>
+    <br>See video (output of this program): https://youtu.be/BcnmQQMt6bs
     <br><b>Algorithm</b>: Neural Network
     <br><b>Dataset</b>: Iris DS
     
