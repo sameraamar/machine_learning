@@ -16,33 +16,50 @@ The exercise are done part of Machine Learning Course at the Haifa University (2
     - Two classes of Iris where selected: "Iris-setosa", "Iris-virginica"
     
     <br>anyway, these can be changed easily in the python program to check different results of different parameter variations.
-    <br>I randomly split the data to training (60%) and testing (40%) and i got three different results: 
+    <br>I randomly split the data to training and testing (based on the vaue in the first column) and i got three different results, but they all are close together: 
     <table>
         <tr>
+        <td>Ratio</td>
         <td>Iterations</td>
         <td>theta</td>
         <td>Accuracy</td>
         </tr>
         <tr>
+        <td>0.6</td>
         <td>16</td>
         <td>-4.8 , 7.2</td>
         <td>0.77</td>
         </tr>
         <tr>
+        <td>0.6</td>
         <td>19</td>
         <td>-5.6 , 9.1</td>
         <td>0.9</td>
         </tr>
         <tr>
+        <td>0.6</td>
         <td>259</td>
         <td>-51.5 , 76.9</td>
         <td>0.8</td>
         </tr>       
         <tr>
+        <td>0.6</td>
         <td>164</td>
         <td>-40.1 , 61.5</td>
         <td>0.8919</td>
-        </tr>       
+        </tr>   
+        <tr>
+        <td>0.8</td>
+        <td>139</td>
+        <td>-29.29 , 44.30</td>
+        <td>0.8</td>
+        </tr>      
+        <tr>
+        <td>0.8</td>
+        <td>280</td>
+        <td>-51.8 , 76.0</td>
+        <td>0.875</td>
+        </tr>              
     </table>
     
     
