@@ -16,7 +16,7 @@ breast_cancer_url  = 'https://archive.ics.uci.edu/ml/machine-learning-databases/
 #breast_cancer_url = 'breast_cancer/wpbc.data'
 logger_level = 1     # 1 = info, 0 = debug
 #plot_vis = True      # plot graphs or not
-test_ratio = 0.2
+test_ratio = 0.4
 
 #%%
 
