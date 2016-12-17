@@ -63,7 +63,7 @@ def prepare_breast_cancer_ds():
     total = dataframe.shape[0]
     X = dataframe[columns].copy()
     
-    info("selected {0} entries out of {1} from the dataset".format(len(X), total))
+    info("Breast Cancer Dataset: selected {0} entries out of {1} from the dataset".format(X.shape, total))
     
     X = X.as_matrix()
     Y = Y.as_matrix().astype(int)
@@ -93,7 +93,7 @@ def prepare_iris_DS():
     info("Iris DS is Loaded")
 
     
-    columns, labels = ["sepal length", "sepal width"], ['Iris-virginica', 'Iris-versicolor']
+    columns, labels = ["sepal length", "sepal width", "petal length", "petal width"], ['Iris-virginica', 'Iris-versicolor']
 
     #the following are separable:
     #["Iris-setosa", "Iris-virginica"]
@@ -102,7 +102,7 @@ def prepare_iris_DS():
     df = df[df.Species.isin(labels)]
     X = df[columns].copy()
 
-    info("selected {0} entries out of {1} from the dataset based on labels {2}".format(len(X), total, str(labels)))
+    info("IRIS Dataset: selected {0} samples out of {1} from the dataset based on labels {2}".format(X.shape, total, str(labels)))
 
     Y = df[["Species"]].copy()
     Y.loc[Y.Species != labels[0], 'Species'] = 0.0
@@ -124,11 +124,11 @@ def plot_confusion_matrix(cm, classes,
     """
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
+        info("Normalized confusion matrix")
     else:
-        print('Confusion matrix, without normalization')
+        info('Confusion matrix, without normalization')
 
-    print(cm)
+    info(cm)
 
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
@@ -137,7 +137,7 @@ def plot_confusion_matrix(cm, classes,
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
 
-    fmt = '.2f' if normalize else 'd'
+    fmt = '.2f' # if normalize else 'd'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
         plt.text(j, i, format(cm[i, j], fmt),
@@ -160,7 +160,7 @@ from matplotlib import cm
 #from mpl_toolkits.mplot3d import Axes3D
 # from http://matplotlib.org/examples/mplot3d/
 import matplotlib.pyplot as plt
-def plot_trisuf3d(mX, mY, mZ, label, xlabel, ylabel, zlabel):
+def plot_trisuf3d(mX, mY, mZ, title, xlabel, ylabel, zlabel):
     x = np.asarray(mX)
     y = np.asarray(mY)
     z = np.asarray(mZ)
@@ -195,7 +195,7 @@ from sklearn.metrics import confusion_matrix
 
 def my_train_test_split(X, Y, test_size, random_state=None):
     #reuse existing function to split the dataset. random_state means it is real random
-    X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=test_ratio, random_state=random_state)
+    X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=test_size, random_state=random_state)
     #msk = np.random.rand(X.shape[0]) < (1.0 - test_size)
     #X_train = X[msk]
     #X_test = X[~msk]
@@ -210,8 +210,8 @@ def my_train_test_split(X, Y, test_size, random_state=None):
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     
-def run_svm(X, Y, test_ratio, gamma, C):
-    X_train, X_test, y_train, y_test = my_train_test_split( X, Y, test_size=test_ratio)
+def run_svm(X, Y, test_size, gamma, C):
+    X_train, X_test, y_train, y_test = my_train_test_split( X, Y, test_size=test_size)
     #svc = svm.SVC(kernel='linear', C=C).fit(X_train, y_train)
     rbf_svc = svm.SVC(kernel='rbf', gamma=gamma, C=C)
 
@@ -235,7 +235,7 @@ def run_svm(X, Y, test_ratio, gamma, C):
 #%%
 
 
-def find_best_svm_params_helper(X, Y, tries, test_ratio, C_range=(0.1, 10, 0.5), gamma_range=(0.1, 10, 0.5)):
+def find_best_svm_params_helper(X, Y, tries, test_size, C_range=(0.1, 10, 0.5), gamma_range=(0.1, 10, 0.5)):
     mX = []
     mY = []
     mZ = []
@@ -259,7 +259,7 @@ def find_best_svm_params_helper(X, Y, tries, test_ratio, C_range=(0.1, 10, 0.5),
     
             avg = 0.0
             for runs in range(tries):
-                tmp, score = run_svm(X, Y, test_ratio, gamma, C)
+                tmp, score = run_svm(X, Y, test_size, gamma, C)
                 
                 if avg == 0.0:
                     cnf_matrix_tmp = tmp
@@ -289,14 +289,14 @@ def find_best_svm_params_helper(X, Y, tries, test_ratio, C_range=(0.1, 10, 0.5),
 
 #%%
 
-def find_best_svm_params(X, Y, epsilon=0.001, tries = 10, test_ratio = 0.2):
+def find_best_svm_params(X, Y, epsilon=0.001, tries = 10, test_size = 0.2):
     starttime = time.time()
     best_score = 0
     C_range=(1, 1000, 100)
     gamma_range=(1, 1000, 100)
     for i in range(10):
         debug (str(C_range) + str( gamma_range))
-        new_C, new_gamma, new_score, new_cnf_matrix = find_best_svm_params_helper(X, Y, tries, test_ratio, C_range=C_range, gamma_range=gamma_range)
+        new_C, new_gamma, new_score, new_cnf_matrix = find_best_svm_params_helper(X, Y, tries, test_size, C_range=C_range, gamma_range=gamma_range)
         
         d = 0
         if new_score > best_score:
@@ -328,13 +328,13 @@ def find_best_svm_params(X, Y, epsilon=0.001, tries = 10, test_ratio = 0.2):
 
 #%%
 
-def start_svm(X, Y, class_names, tries = 10, test_ratio = 0.2):
+def start_svm(X, Y, class_names, test_size, tries = 10):
     info('Search for best parameters for SVM.')
     info('----------------------------------.')
-    best_C, best_gamma, best_score, cnf_matrix = find_best_svm_params(X, Y, tries=tries, test_ratio=test_ratio)
+    best_C, best_gamma, best_score, cnf_matrix = find_best_svm_params(X, Y, tries=tries, test_size=test_size)
 
     # Plot non-normalized confusion matrix
-    plot_confusion_matrix(cnf_matrix, classes=class_names, title='Confusion matrix, without normalization')
+    plot_confusion_matrix(cnf_matrix, classes=class_names, title='Confusion matrix (SVM), without normalization')
     info( 'best C: {0}, best gamma: {1}, best score: {2}'.format(best_C, best_gamma, best_score))
 
     model = svm.SVC(kernel='rbf', gamma=best_gamma, C=best_C)
@@ -353,7 +353,7 @@ def start_svm(X, Y, class_names, tries = 10, test_ratio = 0.2):
 
 from sklearn.neural_network import MLPClassifier
 
-def start_neural_network(X, Y):
+def start_neural_network(X, Y, test_size):
     info('Search for best parameters for neural network.')
     info('---------------------------------------------.')
     layer = []
@@ -361,7 +361,7 @@ def start_neural_network(X, Y):
     performance = []
     score = []
     
-    times = 20
+    times = 10
     
     best_score = 0
     best_rate = None
@@ -372,7 +372,7 @@ def start_neural_network(X, Y):
             p = 0.0
             s = 0.0
             for i in range(times):
-                X_train, X_test, y_train, y_test = my_train_test_split( X, Y, test_size=test_ratio) #, random_state=i)
+                X_train, X_test, y_train, y_test = my_train_test_split( X, Y, test_size=test_size) #, random_state=i)
                 
                 starttime = time.time()
                 mlp = MLPClassifier(hidden_layer_sizes=(l,), 
@@ -430,35 +430,41 @@ def start_neural_network(X, Y):
 
 # evaluate each model in turn
 #from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score
+#from sklearn.metrics import accuracy_score
 #from sklearn import cross_validation
 
-def compare(X, Y, models, classnames, title):
+def compare(X, Y, models, classnames, title, test_size = 0.2):
     # prepare configuration for cross validation test harness
 
     #num_folds = 2
     #num_instances = len(X)
-    seed = 42
-    test_ratio = 0.2
-    
+    #seed = 42
+        
     results = []
     names = []
     for name, model in models:
         #print ('model ....', name, model)
         
-        seed += 1
+        #seed += 1
         
         #tmpscore = cross_val_score(model, X, Y.ravel(), scoring='accuracy')
         #print('score is: ', tmpscore)
         cv_results = []
-        iterations = 20
+        iterations = 10
+        fit_time = test_time = 0.0
         for i in range(iterations):
-            X_train, X_test, y_train, y_test = my_train_test_split(X, Y, test_ratio) #, random_state=(i+1)*seed)
-        
+            starttime = time.time()
+            X_train, X_test, y_train, y_test = my_train_test_split(X, Y, test_size) #, random_state=(i+1)*seed)
             model.fit(X_train, y_train)
+            endtime = time.time()
+            fit_time += endtime-starttime
             
+            starttime = time.time()
             y_pred = model.predict(X_test)
             #cv_results.append ( accuracy_score(y_pred , y_test) )
+            endtime = time.time()
+            test_time += endtime-starttime
+            
             cv_results.append ( model.score(X_test, y_test) )
             
             tmp = confusion_matrix(y_test, y_pred)
@@ -468,7 +474,8 @@ def compare(X, Y, models, classnames, title):
                 cnf_matrix =  cnf_matrix + tmp
             # Compute confusion matrix
             #cv_results.append( model.score(X_test, y_test) )
-            
+        
+        info ('For model {0}: fit time is {1} (s), test time is {2} (s) for {3} iterations'.format(name, fit_time, test_time, iterations))    # average times
         cnf_matrix = cnf_matrix / float(iterations)
         plot_confusion_matrix(cnf_matrix, classnames, title=title + ': ' + name)
         results.append(cv_results)
@@ -484,11 +491,12 @@ def compare(X, Y, models, classnames, title):
     plt.boxplot(results)
     ax.set_xticklabels(names)
     plt.show()
+    
 #%%
 
 datasets = []
 
-iris_ds = False
+iris_ds = True
 if iris_ds:
     info('IRIS Dataset')
     X, Y = prepare_iris_DS()
@@ -496,30 +504,38 @@ if iris_ds:
     classnames = ['Iris-virginica', 'Iris-versicolor']
     datasets.append( ("IRIS Dataset", X, Y, classnames) )
 
-breast_cancer = False
+breast_cancer = True
 if breast_cancer:
     X, Y = prepare_breast_cancer_ds()
     classnames = ['DiseaseFree', 'Infected']
-    datasets.append( ('Breast Canser Dataset', X, Y, classnames) )
+    datasets.append( ('Breast Cancer Dataset', X, Y, classnames) )
 
 #%%
-cm = [[ 7.  , 2.9],  [ 1.7 , 8.4]]
-cm = np.asmatrix(cm)
-plot_confusion_matrix(cm, ['a', 'b'])
-
+#cm = [[ 7.  , 2.9],  [ 1.7 , 8.4]]
+#cm = np.asmatrix(cm)
+#plot_confusion_matrix(cm, ['a', 'b'])
+#
 
 models = {}
 for title, X, Y, classnames in datasets:
+    svm_time = mlp_time = 0
     print('==============TRAIN on DATA SET ({0})======================='.format(title))
-    svm_model = start_svm(X, Y, classnames)
+    starttime = time.time()
+    svm_model = start_svm(X, Y, classnames, test_size=test_ratio)
+    endtime = time.time()
+    svm_time += endtime-starttime
     models[title] = []
     models[title].append( ["SVM", svm_model] )
 
-    mlp = start_neural_network(X, Y)
+    starttime = time.time()
+    mlp = start_neural_network(X, Y, test_size=test_ratio)
+    endtime = time.time()
+    mlp_time += endtime-starttime
     models[title].append( ["NN", mlp] )
-
+    print ('Time for SVM parameter search: {0} seconds'.format(svm_time))
+    print ('Time for NN  parameter search: {0} seconds'.format(mlp_time))
 #%%
 #compare between the models
 for title, X, Y, classnames in datasets:
-    print('==============DATA SET ({0})======================='.format(title))
-    compare(X, Y, models[title], classnames, title)
+    info('==============DATA SET ({0})======================='.format(title))
+    times = compare(X, Y, models[title], classnames, title, test_size=test_ratio)
