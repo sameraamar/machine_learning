@@ -3,7 +3,7 @@ In this repository i am using python to practice machine learning algorithms
 <br>
 This exercise is done part of Machine Learning Course at the Haifa University (2016/2017)
 
-1. <b><u>ex1.py</u></b> : 
+<b>1. <u>ex1.py</u></b> : 
     <br>See video (output of this program): https://youtu.be/0QvxtB3d8h4 
     <br><b>Algorithm</b>: Neural Network
     <br><b>Dataset</b>: Iris DS
@@ -67,4 +67,26 @@ This exercise is done part of Machine Learning Course at the Haifa University (2
     <br>
     The number of iterations till it converges is not deteministic since we randomly split between training dataset and test dataset.
     
-    
+<b>2. <u>ex2.py</u></b> : Comparison between Machine Learning algorithms
+    <br>
+    This exercise is targeting to compare between the two algorithms of SVM and Neural Network on different datasets. 
+    <br>
+    The program can be split into the following major parts:
+              <br><ol>
+          <li>SVM learning process:    </li>
+          <ol style="list-style-type: lower-alpha; padding-bottom: 0;">
+            <li style="margin-left:2em">
+               Run SVM model on the dataset using different combinations of gamma and C, and find the best combination   </li>
+            <li style="margin-left:2em">
+               For doing this I am running loops on gamma and C with big steps. In the beginging I chose a big range (1 to 1000) with big steps (of 100), then later on I zoom into smaller range with smaller steps.    <br>
+                    I stop  either if I reach 10 times or if there are no meaningful improvement on the score anymore    </li>
+          </ol>
+          <li>Neural Network Learning process. We need to find the best combination of <layer, learning rate>.     
+   <br>
+          Note: In this exercise we set the value of learning rate and we keep it constant    </li>
+          <li>
+          Comparison between the ‘best’ SVM model and the ‘best’ NN model.     </li>
+          </ol>
+          
+
+
