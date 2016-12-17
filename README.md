@@ -1,8 +1,10 @@
 <h1>machine_learning</h1>
 <p>In this repository i am using python to practice machine learning algorithms&nbsp;<br />
   This exercise is done part of Machine Learning Course at the Haifa University (2016/2017)</p>
-<p><strong>1. ex1.py</strong>&nbsp;:&nbsp;</p>
+
 <blockquote>
+
+<p><strong>1. ex1.py</strong>&nbsp;:&nbsp;</p>
   <p>    See video (output of this program):&nbsp;<a href="https://youtu.be/0QvxtB3d8h4">https://youtu.be/0QvxtB3d8h4</a>&nbsp;<br />
   </p>
   <p><strong>Algorithm</strong>: Neural Network&nbsp;<br />
@@ -69,9 +71,11 @@
     </tr>              
 </table>
   
-</blockquote>
-<blockquote>
+
   <p>The number of iterations till it converges is not deteministic since we randomly split between training dataset and test dataset.</p>
+  
+  </blockquote>
+<blockquote>
   <p><strong>2. ex2.py&nbsp;: Comparison between Machine Learning algorithms&nbsp;</strong><br />
     This exercise is targeting to compare between the two algorithms of SVM and Neural Network on different datasets.&nbsp;<br />
     The program can be split into the following major parts:&nbsp;<br />
