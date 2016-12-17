@@ -1,6 +1,6 @@
-<h1>machine_learning</h1>
+<h1>Machine Learning Exercises</h1>
 <p>In this repository i am using python to practice machine learning algorithms&nbsp;<br />
-  This exercise is done part of Machine Learning Course at the Haifa University (2016/2017)</p>
+These exercises are done part of <b>Machine Learning Course at the Haifa University</b> (2016/2017)</p>
 
 <blockquote>
 
