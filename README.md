@@ -18,8 +18,6 @@ These exercises are done part of <b>Machine Learning Course at the Haifa Univers
     <li> Two classes of Iris where selected: &quot;Iris-setosa&quot;, &quot;Iris-virginica&quot;</li>
   </ul>
   <p><br />
-    <strong>Algorithm</strong>: Neural Network&nbsp;<br />
-    <strong>Dataset</strong>: Iris DS<br />
   </p>
   
   <p>anyway, these can be changed easily in the python program to check different results of different parameter variations.
