@@ -115,7 +115,7 @@ def prepare_iris_DS():
 
 # The following method is taken as is from internet
 def plot_confusion_matrix(cm, classes,
-                          normalize=False,
+                          normalize=True,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
     """
@@ -334,6 +334,7 @@ def start_svm(X, Y, class_names, test_size, tries = 10):
     best_C, best_gamma, best_score, cnf_matrix = find_best_svm_params(X, Y, tries=tries, test_size=test_size)
 
     # Plot non-normalized confusion matrix
+    #plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True, title='Confusion matrix (SVM), without normalization')
     plot_confusion_matrix(cnf_matrix, classes=class_names, title='Confusion matrix (SVM), without normalization')
     info( 'best C: {0}, best gamma: {1}, best score: {2}'.format(best_C, best_gamma, best_score))
 
@@ -477,7 +478,9 @@ def compare(X, Y, models, classnames, title, test_size = 0.2):
         
         info ('For model {0}: fit time is {1} (s), test time is {2} (s) for {3} iterations'.format(name, fit_time, test_time, iterations))    # average times
         cnf_matrix = cnf_matrix / float(iterations)
+        
         plot_confusion_matrix(cnf_matrix, classnames, title=title + ': ' + name)
+        
         results.append(cv_results)
         names.append(name)
         msg = "%s: %f (%f)" % (name, np.mean(cv_results), np.std(cv_results))
@@ -511,10 +514,7 @@ if breast_cancer:
     datasets.append( ('Breast Cancer Dataset', X, Y, classnames) )
 
 #%%
-#cm = [[ 7.  , 2.9],  [ 1.7 , 8.4]]
-#cm = np.asmatrix(cm)
-#plot_confusion_matrix(cm, ['a', 'b'])
-#
+
 
 models = {}
 for title, X, Y, classnames in datasets:
